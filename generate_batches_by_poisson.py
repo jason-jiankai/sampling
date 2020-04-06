@@ -15,7 +15,7 @@ def generate_batches_by_sample(dataset, batch_size, batch_num):
                 batch_labels.append(e[-1])
         batch.append((tf.convert_to_tensor(batch_features), tf.convert_to_tensor(batch_labels)))
     
-    features_shape = [None, 21]
+    features_shape = [None, batch[0][0].shape[1]]
     labels_shape = [None, ]
     dataset = tf.data.Dataset.from_generator(
         lambda: batch,
