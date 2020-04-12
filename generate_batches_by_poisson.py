@@ -13,14 +13,17 @@ def generate_batches_by_sample(dataset, batch_size, batch_num):
             if np.random.uniform(0,1) < ratio:
                 batch_features.append(e[:-1])
                 batch_labels.append(e[-1])
-        batch.append((tf.convert_to_tensor(batch_features), tf.convert_to_tensor(batch_labels)))
+        batch.append((batch_features, batch_labels))
     
-    features_shape = [None, batch[0][0].shape[1]]
+    # print(np.shape(batch[0][0]))
+    # print(np.shape(batch[0][1]))
+
+    features_shape = [None, np.shape(batch[0][0])[1]]
     labels_shape = [None, ]
     dataset = tf.data.Dataset.from_generator(
         lambda: batch,
-        (tf.float64, tf.float64),
-        (tf.TensorShape(features_shape), tf.TensorShape(labels_shape))
+        (tf.float32, tf.float32),
+        (features_shape, labels_shape)
     )
     return dataset
 
